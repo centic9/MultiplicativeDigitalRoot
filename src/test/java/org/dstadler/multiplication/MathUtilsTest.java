@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MultiplicativeDigitalRootTest {
+public class MathUtilsTest {
 
     @Test
     public void getMultiplicativeDigitalRoot() {
@@ -27,7 +27,7 @@ public class MultiplicativeDigitalRootTest {
     }
 
     private void checkRoot(String expected, String input) {
-        assertEquals(expected, MultiplicativeDigitalRoot.getMultiplicativeDigitalRoot(input).toString());
+        assertEquals(expected, MathUtils.getMultiplicativeDigitalRoot(input).toString());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class MultiplicativeDigitalRootTest {
     }
 
     private void checkPersistence(int expected, String input) {
-        assertEquals(expected, MultiplicativeDigitalRoot.getPersistence(input));
+        assertEquals(expected, MathUtils.getPersistence(input));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class MultiplicativeDigitalRootTest {
     }
 
     private void checkFactorization(String input, String... expectedFactors) {
-        List<BigInteger> factors = MultiplicativeDigitalRoot.primeFactors(input);
+        List<BigInteger> factors = MathUtils.primeFactors(input);
 
         assertEquals("Did not get expected factors, expected " + Arrays.toString(expectedFactors) + " but had " + factors,
                 expectedFactors.length, factors.size());
