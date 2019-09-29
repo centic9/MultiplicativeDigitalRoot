@@ -9,6 +9,13 @@ import java.util.List;
  *
  */
 public class MathUtils {
+    private static final BigInteger[] DIGITS = new BigInteger[10];
+    static {
+        for(int i = 0;i < 10;i++) {
+            DIGITS[i] = new BigInteger("" + i);
+        }
+    }
+
 
     public static int getPersistence(String input) {
         if(input.contains("0")) {
@@ -21,7 +28,7 @@ public class MathUtils {
 
             //System.out.println(persistence + ": Result of " + input + ": " + product);
 
-            if(product.toString().length() <= 1) {
+            if(log10(product) == 0) {
                 return persistence;
             }
 
@@ -37,8 +44,8 @@ public class MathUtils {
         }
 
         BigInteger product = BigInteger.ONE;
-        for (int i = 0;i < input.length();i++) {
-            product = product.multiply(new BigInteger("" + input.charAt(i)));
+        for (char digit: input.toCharArray()) {
+            product = product.multiply(DIGITS[digit - 0x30]);
         }
         return product;
     }
@@ -84,5 +91,25 @@ public class MathUtils {
         }
 
         return factors;
+    }
+
+    public static int log10(BigInteger input) {
+        int digits = 0;
+        int bits = input.bitLength();
+        while (bits > 4) {
+            // 4 > log[2](10) so we should not reduce it too far.
+            int reduce = bits / 4;
+            // Divide by 10^reduce
+            input = input.divide(BigInteger.TEN.pow(reduce));
+            // Removed that many decimal digits.
+            digits += reduce;
+            // Recalculate bitLength
+            bits = input.bitLength();
+        }
+        // Now 4 bits or less - add 1 if necessary.
+        if ( input.intValue() > 9 ) {
+            digits += 1;
+        }
+        return digits;
     }
 }

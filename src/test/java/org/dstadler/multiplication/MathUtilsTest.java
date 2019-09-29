@@ -108,4 +108,18 @@ public class MathUtilsTest {
                     expectedFactors[i], factors.get(i).toString());
         }
     }
+
+    @Test
+    public void testLog10() {
+        assertEquals(0, MathUtils.log10(BigInteger.ZERO));
+        assertEquals(0, MathUtils.log10(BigInteger.ONE));
+        assertEquals(0, MathUtils.log10(BigInteger.TWO));
+        assertEquals(0, MathUtils.log10(new BigInteger("8")));
+        assertEquals(0, MathUtils.log10(new BigInteger("9")));
+        assertEquals(1, MathUtils.log10(BigInteger.TEN));
+        assertEquals(1, MathUtils.log10(new BigInteger("11")));
+        assertEquals(3, MathUtils.log10(new BigInteger("1234")));
+        assertEquals(4, MathUtils.log10(new BigInteger("31234")));
+        assertEquals(16, MathUtils.log10(new BigInteger("27777778888889911")));
+    }
 }
