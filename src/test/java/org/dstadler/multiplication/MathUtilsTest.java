@@ -56,6 +56,9 @@ public class MathUtilsTest {
         checkPersistence(11, "27777778888889911");
 
         checkPersistence(11, "84772818479372227374");
+
+        checkPersistence(1, "100");
+        checkPersistence(1, "847728184793722273740");
     }
 
     private void checkPersistence(int expected, String input) {

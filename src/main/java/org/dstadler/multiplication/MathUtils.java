@@ -36,8 +36,7 @@ public class MathUtils {
             return BigInteger.ZERO;
         }
 
-        BigInteger product;
-        product = new BigInteger("1");
+        BigInteger product = BigInteger.ONE;
         for (int i = 0;i < input.length();i++) {
             product = product.multiply(new BigInteger("" + input.charAt(i)));
         }
