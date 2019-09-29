@@ -5,6 +5,13 @@ See also:
 * https://de.wikipedia.org/wiki/Querprodukt (German)
 * https://www.spektrum.de/kolumne/behaglich-beharrliche-berechnungen/1643996 (German)
 
+## Theory
+
+There is a conjecture that there is no multiplicative persistence of an number higher than 11!
+
+See https://oeis.org/A007954 and https://oeis.org/A003001 for related mathematical series
+
+
 
 ## Change it
 
