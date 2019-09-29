@@ -11,6 +11,7 @@ public class MultiplicativeDigitalRootTest {
         assertFalse(MultiplicativeDigitalRoot.candidate("21"));
         assertFalse(MultiplicativeDigitalRoot.candidate("222222222222222222222234567898"));
         assertFalse(MultiplicativeDigitalRoot.candidate("12345"));
+        assertFalse(MultiplicativeDigitalRoot.candidate("15234"));
 
         assertTrue(MultiplicativeDigitalRoot.candidate(""));
         assertTrue(MultiplicativeDigitalRoot.candidate("1"));

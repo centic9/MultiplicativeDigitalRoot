@@ -53,21 +53,21 @@ public class MultiplicativeDigitalRoot {
     protected static boolean candidate(String input) {
         // not a candidate if digits are not ordered
         char prev = '0';
-        boolean two = false, five = false;
+        boolean two = false;
         for (char c :input.toCharArray()){
+            if(c < prev) {
+                return false;
+            }
+
             if(c == '0') {
                 return false;
-            }
-
-            if(c == '2') {
+            } else if(c == '2') {
                 two = true;
             } else if(c == '5') {
-                five = true;
-            }
-
-            // two and five together cause a "10" and thus are done in 2 steps at max
-            if((two && five) || c < prev) {
-                return false;
+                // two and five together cause a "10" and thus are not more than 2 steps to get to root "0"
+                if(two) {
+                    return false;
+                }
             }
 
             prev = c;
