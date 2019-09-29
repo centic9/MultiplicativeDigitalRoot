@@ -1,0 +1,52 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'de.thetaphi:forbiddenapis:2.6'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'de.thetaphi.forbiddenapis'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.11
+
+repositories {
+	mavenCentral()
+}
+
+forbiddenApis {
+	suppressAnnotations = ['org.dstadler.commons.util.SuppressForbidden']
+	bundledSignatures = [ 'jdk-reflection', 'commons-io-unsafe-2.5', 'jdk-reflection' ]
+}
+forbiddenApisMain {
+	bundledSignatures += [ 'jdk-deprecated', 'jdk-internal', 'jdk-non-portable' ]
+}
+
+dependencies {
+	compile 'commons-io:commons-io:2.6'
+	compile 'org.apache.commons:commons-lang3:3.9'
+	compile 'org.dstadler:commons-dost:1.0.0.27'
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.dstadler:commons-test:1.0.0.16'
+}
+
+wrapper {
+    gradleVersion = '5.6.2'
+}
+
+task adjustWrapperPropertiesFile {
+    doLast {
+        ant.replaceregexp(match: '^#.*', replace: '', flags: 'g', byline: true) {
+            fileset(dir: project.projectDir, includes: 'gradle/wrapper/gradle-wrapper.properties')
+        }
+        new File(project.projectDir, 'gradle/wrapper/gradle-wrapper.properties').with {
+            it.text = it.readLines().findAll { it }.sort().join('\n')
+        }
+        ant.fixcrlf(file: 'gradle/wrapper/gradle-wrapper.properties', eol: 'lf')
+    }
+}
+wrapper.finalizedBy adjustWrapperPropertiesFile
