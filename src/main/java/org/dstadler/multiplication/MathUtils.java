@@ -106,16 +106,18 @@ public class MathUtils {
 
         BigInteger n = new BigInteger(input);
         List<BigInteger> factors = new ArrayList<>();
+
+        // start with prime factor "2"
         BigInteger i = BigInteger.TWO;
+        //noinspection ConditionalBreakInInfiniteLoop
         while(true) {
-            BigInteger division = n.divide(i);
-            if(i.compareTo(division) > 0) {
+            // if i is too large for an additional factor we are done here
+            if(i.compareTo(n.divide(i)) > 0) {
                 break;
             }
 
             while(true) {
-                BigInteger remainder = n.remainder(i);
-                if(remainder.equals(BigInteger.ZERO)) {
+                if(n.remainder(i).equals(BigInteger.ZERO)) {
                     factors.add(i);
                     n = n.divide(i);
                 } else {

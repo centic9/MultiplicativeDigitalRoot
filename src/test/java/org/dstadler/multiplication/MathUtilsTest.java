@@ -24,6 +24,7 @@ public class MathUtilsTest {
         checkRoot("84", "672");
         checkRoot("32", "84");
         checkRoot("6", "32");
+        checkRoot("120", "12345");
     }
 
     private void checkRoot(String expected, String input) {
@@ -59,6 +60,7 @@ public class MathUtilsTest {
 
         checkPersistence(1, "100");
         checkPersistence(1, "847728184793722273740");
+        checkPersistence(2, "12345");
     }
 
     private void checkPersistence(int expected, String input) {
