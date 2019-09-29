@@ -88,10 +88,10 @@ public class MathUtilsTest {
         checkFactorization("3778888999", "3778888999");
         checkFactorization("277777788888899", "13", "59", "1699", "213161503");
 
-        checkFactorization("1277777788888899", "3", "425925929629633");
-        checkFactorization("2777777888888991", "3", "113", "3011", "2721366679");
-        checkFactorization("27777778888889911", "7", "7", "23", "619", "8447", "4713901");
-        checkFactorization("84772818479372227374", "2", "3", "31", "10891", "137191", "305035439");
+        // takes a few seconds: checkFactorization("1277777788888899", "3", "425925929629633");
+        // takes a few seconds: checkFactorization("2777777888888991", "3", "113", "3011", "2721366679");
+        // takes a few seconds: checkFactorization("27777778888889911", "7", "7", "23", "619", "8447", "4713901");
+        // takes a few seconds: checkFactorization("84772818479372227374", "2", "3", "31", "10891", "137191", "305035439");
     }
 
     private void checkFactorization(String input, String... expectedFactors) {

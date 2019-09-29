@@ -11,6 +11,10 @@ import java.util.List;
 public class MathUtils {
 
     public static int getPersistence(String input) {
+        if(input.contains("0")) {
+            return 1;
+        }
+
         int persistence = 1;
         while(true) {
             BigInteger product = getMultiplicativeDigitalRoot(input);
@@ -27,6 +31,11 @@ public class MathUtils {
     }
 
     public static BigInteger getMultiplicativeDigitalRoot(String input) {
+        // shortcut this calculation
+        if(input.contains("0")) {
+            return BigInteger.ZERO;
+        }
+
         BigInteger product;
         product = new BigInteger("1");
         for (int i = 0;i < input.length();i++) {
