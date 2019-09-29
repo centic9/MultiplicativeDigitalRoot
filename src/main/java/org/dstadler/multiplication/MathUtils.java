@@ -42,7 +42,8 @@ public class MathUtils {
 
             //System.out.println(persistence + ": Result of " + input + ": " + product);
 
-            if(log10(product) == 0) {
+            // stop when we have reached a single-digit number
+            if(product.compareTo(BigInteger.TEN) < 0) {
                 return persistence;
             }
 

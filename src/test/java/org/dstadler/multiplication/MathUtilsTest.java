@@ -118,6 +118,7 @@ public class MathUtilsTest {
         assertEquals(0, MathUtils.log10(new BigInteger("9")));
         assertEquals(1, MathUtils.log10(BigInteger.TEN));
         assertEquals(1, MathUtils.log10(new BigInteger("11")));
+        assertEquals(2, MathUtils.log10(new BigInteger("100")));
         assertEquals(3, MathUtils.log10(new BigInteger("1234")));
         assertEquals(4, MathUtils.log10(new BigInteger("31234")));
         assertEquals(16, MathUtils.log10(new BigInteger("27777778888889911")));
