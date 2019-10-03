@@ -2,6 +2,7 @@ package org.dstadler.multiplication;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,10 +64,11 @@ public class MathUtils {
      * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
      * mathematical series.
      *
-     * @param input The number as a byte array, lower digits at the beginning, unused entries are "-1"
+     * @param inputOrig The number as a byte array, lower digits at the beginning, unused entries are "-1"
      * @return How many times the multiplicative digital root can be computed on this number.
      */
-    public static int getPersistence(byte[] input) {
+    public static int getPersistence(byte[] inputOrig) {
+        byte[] input = Arrays.copyOf(inputOrig, inputOrig.length);
         if(containsZero(input)) {
             return 1;
         }

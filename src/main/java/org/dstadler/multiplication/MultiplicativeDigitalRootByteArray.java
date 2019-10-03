@@ -33,7 +33,7 @@ public class MultiplicativeDigitalRootByteArray {
                 }
             }
 
-            if(persistence >= 10 || count % 2788999 == 0) {
+            if(persistence >= 10 || count % 278999992 == 0) {
                 long now = System.currentTimeMillis();
                 long duration = (now - start)/1000;
                 BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
@@ -52,12 +52,22 @@ public class MultiplicativeDigitalRootByteArray {
         System.out.println("Had max persistence of " + maxPersistence);
     }
 
-    private static void increment(byte[] number) {
+    protected static void increment(byte[] number) {
         for(int i = 0;i < MAX_DIGITS;i++) {
             byte nr = number[i];
+
+            // reached the end and thus should set the current digit to 1 now
+            if(nr == -1) {
+                number[i] = 1;
+                number[i+1] = -1;
+                break;
+            }
+
+            // when a digit is 9, set it to 0 and continue incrementing the next digits
             if(nr == 9) {
                 number[i] = 0;
             } else {
+                // otherwise simply increment and be done
                 number[i] = (byte)(nr + 1);
                 break;
             }
