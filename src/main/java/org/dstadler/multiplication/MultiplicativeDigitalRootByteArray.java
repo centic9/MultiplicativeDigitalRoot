@@ -94,9 +94,8 @@ public class MultiplicativeDigitalRootByteArray {
             } else {
                 // if the following digit is higher, we can immediately increment to it
                 // as otherwise we do not have digits in ascending order any more
-                byte nrPlusOne = number[i + 1];
-                if(nrPlusOne != -1 && nrPlusOne > (nr + 1)) {
-                    number[i] = nrPlusOne;
+                if(number[i + 1] > (nr + 1)) {
+                    number[i] = number[i + 1];
                 } else {
                     // otherwise simply increment
                     number[i] = (byte) (nr + 1);

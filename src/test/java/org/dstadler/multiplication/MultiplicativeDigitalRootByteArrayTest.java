@@ -155,4 +155,30 @@ public class MultiplicativeDigitalRootByteArrayTest {
             current = new BigInteger(expected);
         }
     }
+
+    @Test
+    public void testMicroBenchmark() {
+        // when we start from 1 we should never encounter "0" or "1" again
+        // as both as skipped when incrementing.
+        byte[] number = new byte[MAX_DIGITS];
+        for(int i = 0;i < MAX_DIGITS;i++) {
+            number[i] = -1;
+        }
+
+        runBenchmark(number);
+        runBenchmark(number);
+        runBenchmark(number);
+        runBenchmark(number);
+        runBenchmark(number);
+    }
+
+    private void runBenchmark(byte[] number) {
+        long start = System.currentTimeMillis();
+
+        for(long i = 0;i < 1_000_000_000L;i++) {
+            MultiplicativeDigitalRootByteArray.increment(number);
+        }
+
+        System.out.println("Took: " + (System.currentTimeMillis() - start) + "ms");
+    }
 }
