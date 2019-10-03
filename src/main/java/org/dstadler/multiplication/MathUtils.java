@@ -11,6 +11,8 @@ import java.util.List;
  * https://en.wikipedia.org/wiki/Persistence_of_a_number
  */
 public class MathUtils {
+    public static final int MAX_DIGITS = 100;
+
     // Pre-compute digits from 0-9 to not having to construct them always
     private static final BigInteger[] DIGITS = new BigInteger[10];
     static {
@@ -53,6 +55,78 @@ public class MathUtils {
     }
 
     /**
+     * Compute the multiplicative persistence of a number, see
+     * also https://en.wikipedia.org/wiki/Persistence_of_a_number and
+     *
+     * E.g. 10 => 1, 25 => 2, 39 => 3, ...
+     *
+     * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
+     * mathematical series.
+     *
+     * @param input The number as a byte array, lower digits at the beginning, unused entries are "-1"
+     * @return How many times the multiplicative digital root can be computed on this number.
+     */
+    public static int getPersistence(byte[] input) {
+        if(containsZero(input)) {
+            return 1;
+        }
+
+        int persistence = 1;
+        while(true) {
+            BigInteger product = getMultiplicativeDigitalRoot(input);
+
+            //System.out.println(persistence + ": Result of " + input + ": " + product);
+
+            // stop when we have reached a single-digit number
+            if(product.compareTo(BigInteger.TEN) < 0) {
+                return persistence;
+            }
+
+            persistence++;
+
+            toByteArray(input, product);
+        }
+    }
+
+    /**
+     * Convert the given BigInteger into a byte-array
+     *
+     * @param number The array for storing the digits of the number in reverse order.
+     *               The byte-array needs to be large enough to hold all bytes
+     * @param bigNumber The number to convert to the byte-array
+     * @throws ArrayIndexOutOfBoundsException if the byte-array is not large enough to
+     *          hold all digits of the bigNumber
+     */
+    public static void toByteArray(byte[] number, BigInteger bigNumber) {
+        int i = 0;
+        int log10 = log10(bigNumber);
+
+        for(; i <= log10; i++) {
+            BigInteger[] divideAndRemainder = bigNumber.divideAndRemainder(BigInteger.TEN);
+            bigNumber = divideAndRemainder[0];
+            number[i] = (byte)(divideAndRemainder[1].toString().charAt(0)-0x30);
+        }
+        number[i] = -1;
+    }
+
+    /**
+     * Conver the given digits from the byte-array into a string-representation of the number
+     *
+     * @param number The byte-array which holds the digits of the number in reverse order.
+     * @return A string-representation of the number.
+     */
+    public static String toString(byte[] number) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : number) {
+            if(b == -1) {
+                break;
+            }
+            builder.append((char)(b + 0x30));
+        }
+        return builder.reverse().toString();
+    }
+
+    /**
      * Compute the multiplicative digital root of the given number.
      *
      * See also https://en.wikipedia.org/wiki/Multiplicative_digital_root
@@ -80,6 +154,54 @@ public class MathUtils {
         }
 
         return product;
+    }
+
+    /**
+     * Compute the multiplicative digital root of the given number.
+     *
+     * See also https://en.wikipedia.org/wiki/Multiplicative_digital_root
+     *
+     * E.g. 10 => 0, 25 => 10, 39 => 27, 27 => 14, 14 => 4, ...
+     *
+     * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
+     * mathematical series.
+     *
+     * @param input The number as a byte array, lower digits at the beginning, unused entries are "-1"
+     * @return The multiplicative root of the given number.
+     */
+    public static BigInteger getMultiplicativeDigitalRoot(byte[] input) {
+        // shortcut this calculation
+        if(containsZero(input)) {
+            return BigInteger.ZERO;
+        }
+
+        BigInteger product = BigInteger.ONE;
+        for (byte digit: input) {
+            if(digit == -1) {
+                break;
+            }
+
+            // multiplying by "1" does not change the result
+            if(digit != 1) {
+                product = product.multiply(DIGITS[digit]);
+            }
+        }
+
+        return product;
+    }
+
+    private static boolean containsZero(byte[] number) {
+        for (byte b : number) {
+            if(b == -1) {
+                return false;
+            }
+
+            if(b == 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

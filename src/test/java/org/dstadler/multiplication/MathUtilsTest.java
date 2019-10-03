@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 import static org.junit.Assert.*;
 
 public class MathUtilsTest {
@@ -29,6 +30,11 @@ public class MathUtilsTest {
 
     private void checkRoot(String expected, String input) {
         assertEquals(expected, MathUtils.getMultiplicativeDigitalRoot(input).toString());
+
+        // also check for byte-arrays
+        byte[] number = new byte[MAX_DIGITS];
+        MathUtils.toByteArray(number, new BigInteger(input));
+        assertEquals(expected, MathUtils.getMultiplicativeDigitalRoot(number).toString());
     }
 
     @Test
@@ -65,6 +71,11 @@ public class MathUtilsTest {
 
     private void checkPersistence(int expected, String input) {
         assertEquals(expected, MathUtils.getPersistence(input));
+
+        // also check for byte-arrays
+        byte[] number = new byte[MAX_DIGITS];
+        MathUtils.toByteArray(number, new BigInteger(input));
+        assertEquals(expected, MathUtils.getPersistence(number));
     }
 
     @Test
@@ -124,5 +135,38 @@ public class MathUtilsTest {
         assertEquals(3, MathUtils.log10(new BigInteger("1234")));
         assertEquals(4, MathUtils.log10(new BigInteger("31234")));
         assertEquals(16, MathUtils.log10(new BigInteger("27777778888889911")));
+    }
+
+    @Test
+    public void testToByteArrayAndToString() {
+        checkToByteArrayAndToString(new byte[] {0, -1}, "0");
+        checkToByteArrayAndToString(new byte[] {1, -1}, "1");
+        checkToByteArrayAndToString(new byte[] {0, 1, -1}, "10");
+        checkToByteArrayAndToString(new byte[] {1, 1, -1}, "11");
+        checkToByteArrayAndToString(new byte[] {2, 1, -1}, "12");
+        checkToByteArrayAndToString(new byte[] {0, 0, 1, -1}, "100");
+        checkToByteArrayAndToString(new byte[] {2, 0, 1, -1}, "102");
+        checkToByteArrayAndToString(new byte[] {3, 4, 7, 9, 2, 1, -1}, "129743");
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testToByteArrayOverflow() {
+        MathUtils.toByteArray(new byte[2], new BigInteger("123"));
+    }
+
+    private void checkToByteArrayAndToString(byte[] expected, String strNumber) {
+        byte[] number = new byte[MAX_DIGITS];
+        MathUtils.toByteArray(number, new BigInteger(strNumber));
+
+        for(int i = 0;i < MAX_DIGITS;i++) {
+            if(expected[i] == -1 && number[i] == -1) {
+                break;
+            }
+
+            assertEquals("Failed at " + i,
+                    expected[i], number[i]);
+        }
+
+        assertEquals(strNumber, MathUtils.toString(number));
     }
 }
