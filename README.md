@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/centic9/MultiplicativeDigitalRoot.svg)](https://travis-ci.org/centic9/MultiplicativeDigitalRoot) 
+[![Gradle Status](https://gradleupdate.appspot.com/centic9/MultiplicativeDigitalRoot/status.svg?branch=master)](https://gradleupdate.appspot.com/centic9/MultiplicativeDigitalRoot/status)
+
 This project plays with the mathematical topics of "Multiplicative digital roots" and 
 "Multiplicative Persistence", see https://en.wikipedia.org/wiki/Multiplicative_digital_root and 
 https://en.wikipedia.org/wiki/Persistence_of_a_number for more information.
@@ -43,7 +46,7 @@ much less numbers and skip large sections of numbers that are not relevant anywa
 
 ### Build it and run tests
 
-	cd commons-dost
+	cd MultiplicativeDigitalRoot
 	./gradlew check jacocoTestReport
 
 #### Licensing
