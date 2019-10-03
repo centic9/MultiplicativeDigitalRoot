@@ -1,5 +1,5 @@
-This project plays with "Multiplicative digital roots" and "Multiplicative Persistence, 
-see https://en.wikipedia.org/wiki/Multiplicative_digital_root and 
+This project plays with the mathematical topics of "Multiplicative digital roots" and 
+"Multiplicative Persistence", see https://en.wikipedia.org/wiki/Multiplicative_digital_root and 
 https://en.wikipedia.org/wiki/Persistence_of_a_number for more information.
 
 It currently tries to compute the smallest number for each persistence using Java and BigInteger, 
@@ -22,6 +22,18 @@ More information on this topic:
 * http://www41.homepage.villanova.edu/robert.styer/MultiplicativePersistence/PersistenceStephPerezJournalArtAug2013.pdf
 * http://markdiamond.com.au/download/joous-3-1-1.pdf
 * https://www.tandfonline.com/doi/abs/10.1080/10586458.2014.910849
+
+## Code
+
+This project currently implements two ways of computing the multiplicative persistence of 
+numbers.
+
+The first version at `MultiplicativeDigitalRoot` uses Strings and BigIntegers to handle large numbers, but this is
+obviously rather inefficient and limits the number of checks that can be performed.
+
+The second version at `MultiplicativeDigitalRootByteArray` represents the digits of the number in a byte-array which
+allows to perform some of the operations much quicker. It also optimizes incrementing the number a lot to check
+much less numbers and skip large sections of numbers that are not relevant anyway.
 
 ## Change it
 
