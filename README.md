@@ -11,7 +11,14 @@ There is a conjecture that there is no multiplicative persistence of an number h
 
 See https://oeis.org/A007954 and https://oeis.org/A003001 for related mathematical series
 
-
+* https://arxiv.org/abs/1307.1188
+* http://mathworld.wolfram.com/MultiplicativePersistence.html
+* http://neilsloane.com/doc/persistence.html
+* http://web.archive.org/web/20050214141815/http://www.wschnei.de/digit-related-numbers/persistence.html
+* https://www.youtube.com/watch?v=Wim9WJeDTHQ
+* http://www41.homepage.villanova.edu/robert.styer/MultiplicativePersistence/PersistenceStephPerezJournalArtAug2013.pdf
+* http://markdiamond.com.au/download/joous-3-1-1.pdf
+* https://www.tandfonline.com/doi/abs/10.1080/10586458.2014.910849
 
 ## Change it
 
