@@ -26,7 +26,7 @@ public class MathUtils {
      * Compute the multiplicative persistence of a number, see
      * also https://en.wikipedia.org/wiki/Persistence_of_a_number and
      *
-     * E.g. 10 => 1, 25 => 2, 39 => 3, ...
+     * E.g. 10 =&gt; 1, 25 =&gt; 2, 39 =&gt; 3, ...
      *
      * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
      * mathematical series.
@@ -59,7 +59,7 @@ public class MathUtils {
      * Compute the multiplicative persistence of a number, see
      * also https://en.wikipedia.org/wiki/Persistence_of_a_number and
      *
-     * E.g. 10 => 1, 25 => 2, 39 => 3, ...
+     * E.g. 10 =&gt; 1, 25 =&gt; 2, 39 =&gt; 3, ...
      *
      * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
      * mathematical series.
@@ -133,7 +133,7 @@ public class MathUtils {
      *
      * See also https://en.wikipedia.org/wiki/Multiplicative_digital_root
      *
-     * E.g. 10 => 0, 25 => 10, 39 => 27, 27 => 14, 14 => 4, ...
+     * E.g. 10 =&gt; 0, 25 =&gt; 10, 39 =&gt; 27, 27 =&gt; 14, 14 =&gt; 4, ...
      *
      * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
      * mathematical series.
@@ -163,7 +163,7 @@ public class MathUtils {
      *
      * See also https://en.wikipedia.org/wiki/Multiplicative_digital_root
      *
-     * E.g. 10 => 0, 25 => 10, 39 => 27, 27 => 14, 14 => 4, ...
+     * E.g. 10 =&gt; 0, 25 =&gt; 10, 39 =&gt; 27, 27 =&gt; 14, 14 =&gt; 4, ...
      *
      * See also https://oeis.org/A007954 and https://oeis.org/A003001 for related
      * mathematical series.
@@ -262,13 +262,13 @@ public class MathUtils {
     /**
      * Compute the base-10 logarithm of the given BigInteger.
      * <br/><br/>
-     * log10(0) => 0<br/>
-     * log10(1) => 0<br/>
+     * log10(0) =&gt; 0<br/>
+     * log10(1) =&gt; 0<br/>
      * ...<br/>
-     * log10(9) => 0<br/>
-     * log10(10) => 1<br/>
+     * log10(9) =&gt; 0<br/>
+     * log10(10) =&gt; 1<br/>
      * ...<br/>
-     * log10(100) => 2<br/>
+     * log10(100) =&gt; 2<br/>
      * ...<br/>
      *
      * @param input the number used for computation
