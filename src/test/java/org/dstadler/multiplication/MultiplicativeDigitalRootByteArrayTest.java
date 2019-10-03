@@ -78,8 +78,8 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkIncrement(new byte[] {2, -1}, new byte[] {-1, -1});
         checkIncrement(new byte[] {1, -1}, new byte[] {0, -1, -1});
         checkIncrement(new byte[] {2, -1}, new byte[] {1, -1});
-        checkIncrement(new byte[] {2, 2, -1}, new byte[] {9, -1, 0});
-        checkIncrement(new byte[] {2, 2, 2, -1}, new byte[] {9, 9, -1, 0});
+        checkIncrement(new byte[] {2, 2, -1}, new byte[] {9, -1, -1});
+        checkIncrement(new byte[] {2, 2, 2, -1}, new byte[] {9, 9, -1, -1});
         checkIncrement(new byte[] {1, 0, 1, -1}, new byte[] {0, 0, 1, -1});
         checkIncrement(new byte[] {3, 2, 2, -1}, new byte[] {2, 2, 2, -1});
         checkIncrement(new byte[] {8, 4, 2, -1}, new byte[] {7, 4, 2, -1});
@@ -95,6 +95,10 @@ public class MultiplicativeDigitalRootByteArrayTest {
         // when we start from 1 we should never encounter "0" or "1" again
         // as both as skipped when incrementing.
         byte[] number = new byte[MAX_DIGITS];
+        for(int i = 0;i < MAX_DIGITS;i++) {
+            number[i] = -1;
+        }
+
         BigInteger current = new BigInteger("1");
         for(int i = 0;i < 1000;i++) {
             MathUtils.toByteArray(number, current);
@@ -130,10 +134,16 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkIncrementMultiple("9", "22", "23", "24", "25", "26", "27", "28", "29", "32", "33");
         checkIncrementMultiple("100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "112", "113");
         checkIncrementMultiple("99", "222", "223", "224", "225", "226", "227", "228", "229", "232");
+        checkIncrementMultiple("662", "666", "667", "668", "669", "672");
+        checkIncrementMultiple("693", "699", "722", "723", "724", "725");
     }
 
     private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
         byte[] number = new byte[MAX_DIGITS];
+        for(int i = 0;i < MAX_DIGITS;i++) {
+            number[i] = -1;
+        }
+
         BigInteger current = new BigInteger(initial);
         for (String expected : expectedNumbers) {
             MathUtils.toByteArray(number, current);

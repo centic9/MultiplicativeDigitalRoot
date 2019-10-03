@@ -5,53 +5,77 @@ import java.math.BigInteger;
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 
 public class MultiplicativeDigitalRootByteArray {
-    public static void main(String[] args) {
-        int maxPersistence = 1;
-        int count = 0;
-        int countCheck = 0;
+    private static int maxPersistence = 1;
+    private static int count = 0;
+    private static int countCheck = 0;
+    private static long countCandidate;
+    private static long start = System.currentTimeMillis();
 
+    public static void main(String[] args) {
         byte[] number = new byte[MAX_DIGITS];
         for(int i = 0;i < MAX_DIGITS;i++) {
             number[i] = -1;
         }
 
-        long start = System.currentTimeMillis();
-
         while(true) {
-            increment(number);
-
-            final int persistence;
-            if(!candidate(number)) {
-                persistence = -1;
-            } else {
-                //System.out.println("Calculating the persistence of " + input);
-                persistence = MathUtils.getPersistence(number);
-                countCheck++;
-
-                if(persistence > maxPersistence) {
-                    System.out.println("Found persistence " + persistence + " for " + MathUtils.toString(number));
-                }
-            }
-
-            if(persistence >= 10 || count % 278999992 == 0) {
-                long now = System.currentTimeMillis();
-                long duration = (now - start)/1000;
-                BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
-                System.out.println(String.format("Had persistence: %2d for %,15d, max: %2d, n/sec: %,15d, checked: %,15d",
-                        persistence, bigNumber, maxPersistence,
-                        (duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration))), countCheck));
-            }
-
-            maxPersistence = Math.max(persistence, maxPersistence);
-            count++;
-
-            if(persistence > 11) {
+            if (runIteration(number)) {
                 break;
             }
         }
+
         System.out.println("Had max persistence of " + maxPersistence);
     }
 
+    private static boolean runIteration(byte[] number) {
+        increment(number);
+
+        countCandidate++;
+
+        final int persistence;
+        if(!candidate(number)) {
+            persistence = -1;
+        } else {
+            //System.out.println("Calculating the persistence of " + input);
+            persistence = MathUtils.getPersistence(number);
+            countCheck++;
+
+            if(persistence > maxPersistence) {
+                System.out.println("Found persistence " + persistence + " for " + MathUtils.toString(number));
+            }
+        }
+
+        if(count % 278999992 == 0) {
+            long now = System.currentTimeMillis();
+            long duration = (now - start)/1000;
+            BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
+            System.out.println(String.format("After %,10ds: Had persistence: %2d for %,19d, max: %2d, n/sec: %,19d, checked: %,10d(%,3d), candidates: %,19d(%,5d)",
+                    duration, persistence, bigNumber, maxPersistence,
+                    (duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration))),
+                    countCheck, BigInteger.valueOf(1000000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
+                    countCandidate, BigInteger.valueOf(1000000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
+            ));
+        }
+
+        maxPersistence = Math.max(persistence, maxPersistence);
+        count++;
+
+        return persistence > 11;
+    }
+
+    /**
+     * Increment to a following number which should be checked further.
+     *
+     * Note: This will not increment in single steps, but often
+     * skip large parts of numbers which are not interesting anyway, e.g.
+     * all numbers containing "0" or "1".
+     *
+     * The byte-array should be initialized fully with "-1" values.
+     *
+     * This method expects to usually only receive an empty byte-array (all -1s)
+     * or numbers which were the result of previous invocations of this method!
+     *
+     * @param number The current number as byte-array with digits in reverse order
+     */
     protected static void increment(byte[] number) {
         for(int i = 0;i < MAX_DIGITS;i++) {
             byte nr = number[i];
@@ -60,7 +84,6 @@ public class MultiplicativeDigitalRootByteArray {
             if(nr == -1) {
                 // skip 1 as this is not a candidate anyway
                 number[i] = 2;
-                number[i+1] = -1;
                 break;
             }
 
@@ -69,14 +92,30 @@ public class MultiplicativeDigitalRootByteArray {
                 // skip 0 and 1 as both are not seen as candidates anyway
                 number[i] = 2;
             } else {
-                // otherwise simply increment
-                number[i] = (byte)(nr + 1);
+                // if the following digit is higher, we can immediately increment to it
+                // as otherwise we do not have digits in ascending order any more
+                byte nrPlusOne = number[i + 1];
+                if(nrPlusOne != -1 && nrPlusOne > (nr + 1)) {
+                    number[i] = nrPlusOne;
+                } else {
+                    // otherwise simply increment
+                    number[i] = (byte) (nr + 1);
+                }
 
                 break;
             }
         }
     }
 
+    /**
+     * Check if this number is a useful candidate for checking
+     * multiplicative persistence to ensure that we do not check
+     * numbers that will have the same persistence as smaller numbers anyway.
+     *
+     * @param number The current number as byte-array with digits in reverse order
+     * @return true if this number can be checked for persistence or false if
+     *      it should be skipped.
+     */
     protected static boolean candidate(byte[] number) {
         // not a candidate if digits are not ordered
         byte prev = 9;
