@@ -40,7 +40,8 @@ public class MultiplicativeDigitalRootByteArray {
             countCheck++;
 
             if(persistence > maxPersistence) {
-                System.out.println("Found persistence " + persistence + " for " + MathUtils.toString(number));
+                System.out.println("Found persistence " + persistence + " for " + MathUtils.toString(number) + " after " + (System.currentTimeMillis() - start) + "ms");
+                maxPersistence = persistence;
             }
         }
 
@@ -48,15 +49,15 @@ public class MultiplicativeDigitalRootByteArray {
             long now = System.currentTimeMillis();
             long duration = (now - start)/1000;
             BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
-            System.out.println(String.format("After %,10ds: Had persistence: %2d for %,19d, max: %2d, n/sec: %,19d, checked: %,10d(%,3d), candidates: %,19d(%,5d)",
+            BigInteger nPerSec = duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration));
+            System.out.println(String.format("%,10ds: Had persistence: %2d for %,25d, max: %2d, n/sec: %,20d (%,8d), checked: %,10d (%,3d), candidates: %,20d (%,5d)",
                     duration, persistence, bigNumber, maxPersistence,
-                    (duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration))),
-                    countCheck, BigInteger.valueOf(1000000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
-                    countCandidate, BigInteger.valueOf(1000000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
+                    nPerSec, BigInteger.valueOf(10_000_000).multiply(nPerSec).divide(bigNumber),
+                    countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
+                    countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
             ));
         }
 
-        maxPersistence = Math.max(persistence, maxPersistence);
         count++;
 
         return persistence > 11;

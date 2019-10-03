@@ -136,6 +136,8 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkIncrementMultiple("99", "222", "223", "224", "225", "226", "227", "228", "229", "232");
         checkIncrementMultiple("662", "666", "667", "668", "669", "672");
         checkIncrementMultiple("693", "699", "722", "723", "724", "725");
+        checkIncrementMultiple("77825662428927788", "77825662428927789", "77825662428927792", "77825662428927799");
+        checkIncrementMultiple("77825662428927759", "77825662428927772");
     }
 
     private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
@@ -176,7 +178,15 @@ public class MultiplicativeDigitalRootByteArrayTest {
         long start = System.currentTimeMillis();
 
         for(long i = 0;i < 1_000_000_000L;i++) {
+            //byte[] copy = Arrays.copyOf(number, MAX_DIGITS);
             MultiplicativeDigitalRootByteArray.increment(number);
+            /*for(int j = 1;j < MAX_DIGITS;j++) {
+                if(number[j] == -1) {
+                    break;
+                }
+                assertFalse("Failed for " + MathUtils.toString(copy) + " and " + MathUtils.toString(number),
+                        number[j-1] < number[j]);
+            }*/
         }
 
         System.out.println("Took: " + (System.currentTimeMillis() - start) + "ms");
