@@ -58,14 +58,16 @@ public class MultiplicativeDigitalRootByteArray {
 
             // reached the end and thus should set the current digit to 1 now
             if(nr == -1) {
-                number[i] = 1;
+                // skip 1 as this is not a candidate anyway
+                number[i] = 2;
                 number[i+1] = -1;
                 break;
             }
 
-            // when a digit is 9, set it to 0 and continue incrementing the next digits
+            // when a digit is 9, set it to 2 and continue incrementing the next digits
             if(nr == 9) {
-                number[i] = 0;
+                // skip 0 and 1 as both are not seen as candidates anyway
+                number[i] = 2;
             } else {
                 // otherwise simply increment and be done
                 number[i] = (byte)(nr + 1);

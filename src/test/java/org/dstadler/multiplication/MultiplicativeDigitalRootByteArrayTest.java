@@ -76,18 +76,31 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
     @Test
     public void testIncrement() {
-        checkIncrement(new byte[] {1, -1}, new byte[] {-1, -1});
+        checkIncrement(new byte[] {2, -1}, new byte[] {-1, -1});
         checkIncrement(new byte[] {1, -1}, new byte[] {0, -1});
         checkIncrement(new byte[] {2, -1}, new byte[] {1, -1});
-        checkIncrement(new byte[] {0, 1, -1}, new byte[] {9, -1, 0});
-        checkIncrement(new byte[] {0, 0, 1, -1}, new byte[] {9, 9, -1, 0});
+        checkIncrement(new byte[] {2, 2, -1}, new byte[] {9, -1, 0});
+        checkIncrement(new byte[] {2, 2, 2, -1}, new byte[] {9, 9, -1, 0});
         checkIncrement(new byte[] {1, 0, 1, -1}, new byte[] {0, 0, 1, -1});
+        checkIncrement(new byte[] {3, 2, 2, -1}, new byte[] {2, 2, 2, -1});
+        checkIncrement(new byte[] {8, 4, 2, -1}, new byte[] {7, 4, 2, -1});
 
+        /* We now skip many increments
         byte[] number = new byte[MAX_DIGITS];
         for(int i = 0;i < 1000;i++) {
             MathUtils.toByteArray(number, new BigInteger(Integer.toString(i)));
             MultiplicativeDigitalRootByteArray.increment(number);
             assertEquals(Integer.toString(i+1), MathUtils.toString(number));
+        }*/
+
+        // verify that no "0" or "1" is returned from incrementing any more
+        byte[] number = new byte[MAX_DIGITS];
+        for(int i = 0;i < 1000;i++) {
+            MathUtils.toByteArray(number, new BigInteger(Integer.toString(i)));
+            MultiplicativeDigitalRootByteArray.increment(number);
+            String numberStr = MathUtils.toString(number);
+            assertFalse(numberStr.contains("0"));
+            assertFalse(numberStr.contains("1"));
         }
     }
 
@@ -101,6 +114,27 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
             assertEquals("Failed at " + i,
                     expected[i], number[i]);
+        }
+    }
+
+    @Test
+    public void testIncrementMultiple() {
+        // verify increments with skips
+        checkIncrementMultiple("9", "22", "23", "24", "25", "26", "27", "28", "29", "32", "33");
+        checkIncrementMultiple("100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "112", "113");
+    }
+
+    private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
+        byte[] number = new byte[MAX_DIGITS];
+        BigInteger current = new BigInteger(initial);
+        for (String expected : expectedNumbers) {
+            MathUtils.toByteArray(number, current);
+
+            MultiplicativeDigitalRootByteArray.increment(number);
+
+            assertEquals(expected, MathUtils.toString(number));
+
+            current = new BigInteger(expected);
         }
     }
 }
