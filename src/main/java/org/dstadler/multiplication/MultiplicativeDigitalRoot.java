@@ -2,6 +2,10 @@ package org.dstadler.multiplication;
 
 import java.math.BigInteger;
 
+/**
+ * A sample application which uses Strings and BigIntegers to handle large numbers, but this is
+ * obviously rather inefficient and limits the number of checks that can be performed.
+ */
 public class MultiplicativeDigitalRoot {
     public static void main(String[] args) {
 

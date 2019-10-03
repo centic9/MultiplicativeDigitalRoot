@@ -4,6 +4,15 @@ import java.math.BigInteger;
 
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 
+/**
+ * A sample application which represents the digits of the number in a byte-array which
+ * allows to perform some of the operations much quicker.
+ *
+ * It also optimizes incrementing the number a lot to check
+ * much less numbers and skip large sections of numbers that are not relevant anyway.
+ *
+ * The digits in the byte-array are stored with lowest ones first, i.e 25 is stored as { 5, 2 }.
+ */
 public class MultiplicativeDigitalRootByteArray {
     private static int maxPersistence = 1;
     private static int count = 0;
