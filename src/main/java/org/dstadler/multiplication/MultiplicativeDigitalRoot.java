@@ -30,6 +30,10 @@ public class MultiplicativeDigitalRoot {
                 //System.out.println("Calculating the persistence of " + input);
                 persistence = MathUtils.getPersistence(input);
                 countCheck++;
+
+                if(persistence > maxPersistence) {
+                    System.out.println("Found persistence " + persistence + " for " + input);
+                }
             }
 
             if(persistence >= 10 || count % 2788999 == 0) {
