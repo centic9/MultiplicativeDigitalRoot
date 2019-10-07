@@ -5,8 +5,8 @@ This project plays with the mathematical topics of "Multiplicative digital roots
 "Multiplicative Persistence", see https://en.wikipedia.org/wiki/Multiplicative_digital_root and 
 https://en.wikipedia.org/wiki/Persistence_of_a_number for more information.
 
-It currently tries to compute the smallest number for each persistence using Java and BigInteger, 
-exploring limits of handling large numbers with BigIntegers.
+It determines the smallest number for each multiplicative persistence using Java and BigInteger or byte-arrays, 
+exploring limits of handling large numbers with BigIntegers and comparing performance to other approaches.
 
 ## Theory
 
