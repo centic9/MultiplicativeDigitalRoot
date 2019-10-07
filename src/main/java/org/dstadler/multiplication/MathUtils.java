@@ -261,15 +261,15 @@ public class MathUtils {
 
     /**
      * Compute the base-10 logarithm of the given BigInteger.
-     * <br/><br/>
-     * log10(0) =&gt; 0<br/>
-     * log10(1) =&gt; 0<br/>
-     * ...<br/>
-     * log10(9) =&gt; 0<br/>
-     * log10(10) =&gt; 1<br/>
-     * ...<br/>
-     * log10(100) =&gt; 2<br/>
-     * ...<br/>
+     * <p><p>
+     * log10(0) =&gt; 0<p>
+     * log10(1) =&gt; 0<p>
+     * ...<p>
+     * log10(9) =&gt; 0<p>
+     * log10(10) =&gt; 1<p>
+     * ...<p>
+     * log10(100) =&gt; 2<p>
+     * ...<p>
      *
      * @param input the number used for computation
      * @return the logarithm of the given number in base 10
