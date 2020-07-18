@@ -27,7 +27,7 @@ forbiddenApisMain {
 
 dependencies {
 	compile 'commons-io:commons-io:2.7'
-	compile 'org.apache.commons:commons-lang3:3.10'
+	compile 'org.apache.commons:commons-lang3:3.11'
 	compile 'org.dstadler:commons-dost:1.0.0.31'
 
 	testCompile 'junit:junit:4.13'
