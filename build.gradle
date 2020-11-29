@@ -3,7 +3,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'de.thetaphi:forbiddenapis:3.0.1'
+		classpath 'de.thetaphi:forbiddenapis:3.1'
 	}
 }
 
@@ -19,7 +19,7 @@ repositories {
 
 forbiddenApis {
 	suppressAnnotations = ['org.dstadler.commons.util.SuppressForbidden']
-	bundledSignatures = [ 'jdk-reflection', 'commons-io-unsafe-2.7' ]
+	bundledSignatures = [ 'jdk-reflection', 'commons-io-unsafe-2.8.0' ]
 }
 forbiddenApisMain {
 	bundledSignatures += [ 'jdk-deprecated', 'jdk-internal', 'jdk-non-portable' ]
