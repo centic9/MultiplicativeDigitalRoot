@@ -38,6 +38,11 @@ public class MathUtilsTest {
     }
 
     @Test
+    public void getMultiplicativeDigitalRootEmpty() {
+        assertEquals(BigInteger.ONE, MathUtils.getMultiplicativeDigitalRoot(new byte[0]));
+    }
+
+    @Test
     public void testPersistence() {
         checkPersistence(1, "1");
         checkPersistence(1, "2");

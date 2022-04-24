@@ -2,6 +2,7 @@ package org.dstadler.multiplication;
 
 import org.junit.Test;
 
+import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 import static org.junit.Assert.*;
 
 public class MultiplicativeDigitalRootTest {
@@ -32,5 +33,18 @@ public class MultiplicativeDigitalRootTest {
         assertTrue(MultiplicativeDigitalRoot.candidate("26888999"));
         assertTrue(MultiplicativeDigitalRoot.candidate("3778888999"));
         assertTrue(MultiplicativeDigitalRoot.candidate("277777788888899"));
+    }
+
+    @Test
+    public void testCandidateExhausted() {
+        // all nines means we would overflow the buffer next
+        byte[] number = new byte[MAX_DIGITS];
+        for (int i = 0; i < MAX_DIGITS; i++) {
+            number[i] = 9;
+        }
+
+        //noinspection ResultOfMethodCallIgnored
+        assertThrows(IllegalStateException.class,
+                () -> MultiplicativeDigitalRootByteArray.candidate(number));
     }
 }
