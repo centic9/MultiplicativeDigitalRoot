@@ -18,7 +18,7 @@ public class MultiplicativeDigitalRootByteArray {
     private static int count = 0;
     private static int countCheck = 0;
     private static long countCandidate;
-    private static long start = System.currentTimeMillis();
+    private static final long start = System.currentTimeMillis();
 
     public static void main(String[] args) {
         byte[] number = new byte[MAX_DIGITS];
@@ -59,12 +59,13 @@ public class MultiplicativeDigitalRootByteArray {
             long duration = (now - start)/1000;
             BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
             BigInteger nPerSec = duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration));
-            System.out.println(String.format("%,10ds: Had persistence: %2d for %,25d, max: %2d, n/sec: %,20d (%,8d), checked: %,10d (%,3d), candidates: %,20d (%,5d)",
+            System.out.printf("%,10ds: Had persistence: %2d for %,25d, max: %2d, n/sec: %,20d (%,8d), "
+							+ "checked: %,10d (%,3d), candidates: %,20d (%,5d)%n",
                     duration, persistence, bigNumber, maxPersistence,
                     nPerSec, BigInteger.valueOf(10_000_000).multiply(nPerSec).divide(bigNumber),
                     countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
                     countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
-            ));
+            );
         }
 
         count++;

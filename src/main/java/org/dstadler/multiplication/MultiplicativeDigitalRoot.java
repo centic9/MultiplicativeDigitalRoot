@@ -43,9 +43,9 @@ public class MultiplicativeDigitalRoot {
             if(persistence >= 10 || count % 2788999 == 0) {
                 long now = System.currentTimeMillis();
                 long duration = (now - start)/1000;
-                System.out.println(String.format("Had persistence: %2d for %,15d, max: %2d, n/sec: %,15d, checked: %,15d",
+                System.out.printf("Had persistence: %2d for %,15d, max: %2d, n/sec: %,15d, checked: %,15d%n",
                         persistence, number, maxPersistence,
-                        (duration == 0 ? BigInteger.ZERO : number.divide(BigInteger.valueOf(duration))), countCheck));
+                        (duration == 0 ? BigInteger.ZERO : number.divide(BigInteger.valueOf(duration))), countCheck);
             }
 
             maxPersistence = Math.max(persistence, maxPersistence);
