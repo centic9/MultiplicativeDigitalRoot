@@ -25,6 +25,8 @@ More information on this topic:
 * http://www41.homepage.villanova.edu/robert.styer/MultiplicativePersistence/PersistenceStephPerezJournalArtAug2013.pdf
 * http://markdiamond.com.au/download/joous-3-1-1.pdf
 * https://www.tandfonline.com/doi/abs/10.1080/10586458.2014.910849
+* https://www.linkedin.com/pulse/calculating-multiplicative-persistence-efficiently-cecil-westerhof/?trk=public_profile_article_view
+* https://opensourc.es/blog/persistence/
 
 ## Code
 
