@@ -36,7 +36,8 @@ public class MultiplicativeDigitalRoot {
                 countCheck++;
 
                 if(persistence > maxPersistence) {
-                    System.out.println("Found persistence " + persistence + " for " + input);
+                    System.out.printf("Found persistence %d for %s after %,dms%n",
+							persistence, input, System.currentTimeMillis() - start);
                 }
             }
 
