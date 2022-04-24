@@ -3,6 +3,7 @@ package org.dstadler.multiplication;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -42,13 +43,16 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkCandidate(true, "3778888999");
         checkCandidate(true, "277777788888899");
     }
-    
+
     private void checkCandidate(boolean expected, String numberStr) {
         byte[] number = new byte[MAX_DIGITS];
         MathUtils.toByteArray(number, new BigInteger(numberStr));
-        
-        assertEquals("Faild for " + expected + " and " + numberStr, 
-                expected, MultiplicativeDigitalRootByteArray.candidate(number));
+
+		// ByteArray is optimized to not expect "0" or "1" at all
+		if (!numberStr.contains("0") && !numberStr.contains("1")) {
+			assertEquals("Faild for " + expected + " and " + numberStr,
+					expected, MultiplicativeDigitalRootByteArray.candidate(number));
+		}
         assertEquals("Faild for " + expected + " and " + numberStr,
                 expected, MultiplicativeDigitalRoot.candidate(numberStr));
     }
@@ -67,9 +71,12 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
             MathUtils.toByteArray(number, new BigInteger(str));
 
-            assertEquals("Failed after " + i + " for " + str,
-                    MultiplicativeDigitalRoot.candidate(str),
-                    MultiplicativeDigitalRootByteArray.candidate(number));
+			// ByteArray is optimized to not expect "0" or "1" at all
+			if (!str.contains("0") && !str.contains("1")) {
+				assertEquals("Failed after " + i + " for " + str,
+						MultiplicativeDigitalRoot.candidate(str),
+						MultiplicativeDigitalRootByteArray.candidate(number));
+			}
         }
     }
 
@@ -136,8 +143,9 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkIncrementMultiple("99", "222", "223", "224", "225", "226", "227", "228", "229", "232");
         checkIncrementMultiple("662", "666", "667", "668", "669", "672");
         checkIncrementMultiple("693", "699", "722", "723", "724", "725");
-        checkIncrementMultiple("77825662428927788", "77825662428927789", "77825662428927792", "77825662428927799");
-        checkIncrementMultiple("77825662428927759", "77825662428927772");
+		checkIncrementMultiple("9777777777772", "9777777777777");
+		checkIncrementMultiple("77825662428927788", "77825662428927789", "77825662428927792", "77825662428927799");
+		checkIncrementMultiple("77825662428927759", "77825662428927772");
     }
 
     private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
@@ -158,35 +166,71 @@ public class MultiplicativeDigitalRootByteArrayTest {
         }
     }
 
+	@Ignore("Local micro-benchmark")
     @Test
-    public void testMicroBenchmark() {
-        // when we start from 1 we should never encounter "0" or "1" again
-        // as both as skipped when incrementing.
-        byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
-
-        runBenchmark(number);
-        runBenchmark(number);
-        runBenchmark(number);
-        runBenchmark(number);
-        runBenchmark(number);
+    public void testMicroBenchmarkIncrement() {
+		/*
+			Took: 5615ms
+			Took: 2820ms
+			Took: 2794ms
+			Took: 2682ms
+			Took: 2270ms
+			Took: 2268ms
+		 */
+        runBenchmarkIncrement();
+        runBenchmarkIncrement();
+        runBenchmarkIncrement();
+        runBenchmarkIncrement();
+        runBenchmarkIncrement();
+        runBenchmarkIncrement();
     }
 
-    private void runBenchmark(byte[] number) {
-        long start = System.currentTimeMillis();
+    private void runBenchmarkIncrement() {
+		byte[] number = new byte[MAX_DIGITS];
+		for(int i = 0;i < MAX_DIGITS;i++) {
+			number[i] = -1;
+		}
+
+		long start = System.currentTimeMillis();
 
         for(long i = 0;i < 1_000_000_000L;i++) {
-            //byte[] copy = Arrays.copyOf(number, MAX_DIGITS);
             MultiplicativeDigitalRootByteArray.increment(number);
-            /*for(int j = 1;j < MAX_DIGITS;j++) {
-                if(number[j] == -1) {
-                    break;
-                }
-                assertFalse("Failed for " + MathUtils.toString(copy) + " and " + MathUtils.toString(number),
-                        number[j-1] < number[j]);
-            }*/
+        }
+
+        System.out.println("Took: " + (System.currentTimeMillis() - start) + "ms");
+    }
+
+	@Ignore("Local micro-benchmark")
+    @Test
+    public void testMicroBenchmarkCandidate() {
+		/*
+			Took: 2353ms
+			Took: 2165ms
+			Took: 2168ms
+			Took: 2152ms
+			Took: 2149ms
+			Took: 2177ms
+		 */
+        runBenchmarkCandidate();
+        runBenchmarkCandidate();
+        runBenchmarkCandidate();
+        runBenchmarkCandidate();
+        runBenchmarkCandidate();
+        runBenchmarkCandidate();
+    }
+
+    private void runBenchmarkCandidate() {
+		byte[] number = new byte[MAX_DIGITS];
+		for(int i = 0;i < MAX_DIGITS;i++) {
+			number[i] = -1;
+		}
+
+        long start = System.currentTimeMillis();
+
+        for(long i = 0;i < 300_000_000L;i++) {
+			MultiplicativeDigitalRootByteArray.increment(number);
+			//noinspection ResultOfMethodCallIgnored
+			MultiplicativeDigitalRootByteArray.candidate(number);
         }
 
         System.out.println("Took: " + (System.currentTimeMillis() - start) + "ms");

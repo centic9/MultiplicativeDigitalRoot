@@ -145,13 +145,7 @@ public class MultiplicativeDigitalRootByteArray {
                 return false;
             }
 
-            if(b == 0) {
-                // zero would lead to persistence 1
-                return false;
-            } else if (b == 1) {
-                // "1" could be removed and thus would give a smaller number
-                return false;
-            } else if(b == 2) {
+            if (b == 2) {
                 // "2" and "2" could be replaced by "4" and would give a smaller number
                 // "2" and "3" can be replaced by "6" and this would give a smaller number
                 if (two || three) {
