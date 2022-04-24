@@ -42,12 +42,12 @@ much less numbers and skip large sections of numbers that are not relevant anywa
 
 ### Grab it
 
-    git clone git://github.com/centic9/MultiplicativeDigitalRoot
+    git clone https://github.com/centic9/MultiplicativeDigitalRoot.git
 
 ### Build it and run tests
 
-	cd MultiplicativeDigitalRoot
-	./gradlew check jacocoTestReport
+    cd MultiplicativeDigitalRoot
+    ./gradlew check jacocoTestReport
 
 #### Licensing
 * MultiplicativeDigitalRoot is licensed under the [BSD 2-Clause License].
