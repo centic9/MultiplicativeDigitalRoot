@@ -3,6 +3,7 @@ package org.dstadler.multiplication;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -14,6 +15,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 public class MultiplicativeDigitalRootByteArrayTest {
+	@Before
+	public void setUp() {
+		MultiplicativeDigitalRootByteArray.reset();
+	}
+
     @Test
     public void testCandidate() {
         checkCandidate(false, "0");
@@ -154,12 +160,17 @@ public class MultiplicativeDigitalRootByteArrayTest {
         // verify increments with skips
         checkIncrementMultiple("9", "22", "23", "24", "25", "26", "27", "28", "29", "32", "33");
         checkIncrementMultiple("100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "112", "113");
-        checkIncrementMultiple("99", "222", "223", "224", "225", "226", "227", "228", "229", "232");
-        checkIncrementMultiple("662", "666", "667", "668", "669", "672");
-        checkIncrementMultiple("693", "699", "722", "723", "724", "725");
+        checkIncrementMultiple("99", "222", "223", "224", "225", "226", "227", "228", "229", "237");
+        checkIncrementMultiple("662", "666", "667", "668", "669", "677");
+        checkIncrementMultiple("693", "699", "727", "728", "729", "777");
         checkIncrementMultiple("9777777777772", "9777777777777");
-        checkIncrementMultiple("77825662428927788", "77825662428927789", "77825662428927792", "77825662428927799");
-        checkIncrementMultiple("77825662428927759", "77825662428927772");
+        checkIncrementMultiple("77825662428927788", "77825662428927789", "77825662428927797", "77825662428927799");
+        checkIncrementMultiple("77825662428927759", "77825662428927777");
+        checkIncrementMultiple("229", "237", "238");
+        checkIncrementMultiple("277777788888777", "277777788888778", "277777788888779", "277777788888787",
+				 "277777788888788", "277777788888789", "277777788888797", "277777788888799", "277777788888827", "277777788888828",
+				"277777788888829", "277777788888887", "277777788888888", "277777788888889", "277777788888897",
+				"277777788888899");
     }
 
     private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
@@ -179,6 +190,33 @@ public class MultiplicativeDigitalRootByteArrayTest {
             current = new BigInteger(expected);
         }
     }
+
+	@Test
+	public void testOnly789() {
+		byte[] number = new byte[MAX_DIGITS];
+		for(int i = 0;i < MAX_DIGITS;i++) {
+			number[i] = -1;
+		}
+
+		while (true) {
+			String str = MathUtils.toString(number);
+			if (str.length() >= 3 && str.compareTo("229") >= 0) {
+				break;
+			}
+
+			MultiplicativeDigitalRootByteArray.increment(number);
+		}
+
+		assertEquals(
+				"229",
+				MathUtils.toString(number));
+
+		MultiplicativeDigitalRootByteArray.increment(number);
+
+		assertEquals(
+				"237",
+				MathUtils.toString(number));
+	}
 
     @Ignore("Local micro-benchmark")
     @Test

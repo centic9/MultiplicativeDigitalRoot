@@ -18,6 +18,7 @@ public class MultiplicativeDigitalRootByteArray {
     private static int count = 0;
     private static int countCheck = 0;
     private static long countCandidate;
+	private static int digits = 0;
     private static final long start = System.currentTimeMillis();
 
     public static void main(String[] args) {
@@ -46,7 +47,7 @@ public class MultiplicativeDigitalRootByteArray {
             countCheck++;
 
             if (persistence > maxPersistence) {
-                System.out.printf("Found persistence %d for %s after %,dms%n",
+                System.out.printf("Found persistence %2d for %s after %,dms%n",
 						persistence, MathUtils.toString(number), System.currentTimeMillis() - start);
                 maxPersistence = persistence;
             }
@@ -57,12 +58,12 @@ public class MultiplicativeDigitalRootByteArray {
             long duration = (now - start)/1000;
             BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
             BigInteger nPerSec = duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration));
-            System.out.printf("%,10ds: Testing: %,25d, max: %2d, n/sec: %,20d (%,8d), "
-							+ "candidates: %,20d (%,5d), checked: %,10d (%,3d)%n",
-                    duration, bigNumber, maxPersistence,
-                    nPerSec, BigInteger.valueOf(10_000_000).multiply(nPerSec).divide(bigNumber),
+			System.out.printf("%,10ds: Testing(%,4.1f): %,30d, max: %2d, n/sec: %,28d (%,8d), "
+							+ "candidates: %,20d (%,5d), checked: %,10d (%,5d)%n",
+                    duration, Math.log10(bigNumber.doubleValue()), bigNumber, maxPersistence,
+                    nPerSec, BigInteger.valueOf(100_000).multiply(nPerSec).divide(bigNumber),
 					countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber),
-                    countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber)
+                    countCheck, BigInteger.valueOf(100_000_000_000L).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber)
             );
 
 			/*if (start + TimeUnit.MINUTES.toMillis(1) < System.currentTimeMillis()) {
@@ -97,14 +98,20 @@ public class MultiplicativeDigitalRootByteArray {
             // reached the end and thus should set the current digit to 1 now
             if (nr == -1) {
                 // skip 0 and 1 as both are not seen as candidates anyway
-                number[i] = 2;
+				number[i] = 2;
+				digits = i;
                 break;
             }
 
             // when a digit is 9, set it to 2 and continue incrementing the next digits
             if (nr == 9) {
-                // skip 0 and 1 as both are not seen as candidates anyway
-                number[i] = 2;
+				// all digits except the first two need to be 7, 8 or 9
+				if (digits >= 2 && i <= (digits - 2)) {
+					number[i] = 7;
+				} else {
+					// skip 0 and 1 as both are not seen as candidates anyway
+					number[i] = 2;
+				}
             } else {
                 // if the following digit is higher, we can immediately increment to it
                 // as otherwise we do not have digits in ascending order anymore
@@ -173,4 +180,12 @@ public class MultiplicativeDigitalRootByteArray {
 
         throw new IllegalStateException("Exceeded max number of digits: " + MAX_DIGITS);
     }
+
+	protected static void reset() {
+		maxPersistence = 1;
+		count = 0;
+		countCheck = 0;
+		countCandidate = 0;
+		digits = 0;
+	}
 }
