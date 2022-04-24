@@ -41,30 +41,30 @@ public class MultiplicativeDigitalRootByteArray {
         countCandidate++;
 
         final int persistence;
-        if(!candidate(number)) {
+        if (!candidate(number)) {
             persistence = -1;
         } else {
             //System.out.println("Calculating the persistence of " + input);
             persistence = MathUtils.getPersistence(number);
             countCheck++;
 
-            if(persistence > maxPersistence) {
+            if (persistence > maxPersistence) {
                 System.out.println("Found persistence " + persistence + " for " + MathUtils.toString(number) + " after " + (System.currentTimeMillis() - start) + "ms");
                 maxPersistence = persistence;
             }
         }
 
-        if(count % 278999992 == 0) {
+        if (count % 278999992 == 0) {
             long now = System.currentTimeMillis();
             long duration = (now - start)/1000;
             BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
             BigInteger nPerSec = duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration));
             System.out.printf("%,10ds: Had persistence: %2d for %,25d, max: %2d, n/sec: %,20d (%,8d), "
-							+ "checked: %,10d (%,3d), candidates: %,20d (%,5d)%n",
+							+ "candidates: %,20d (%,5d), checked: %,10d (%,3d)%n",
                     duration, persistence, bigNumber, maxPersistence,
                     nPerSec, BigInteger.valueOf(10_000_000).multiply(nPerSec).divide(bigNumber),
-                    countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
-                    countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
+					countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber),
+                    countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber)
             );
 
 			/*if (start + TimeUnit.MINUTES.toMillis(1) < System.currentTimeMillis()) {
@@ -97,20 +97,20 @@ public class MultiplicativeDigitalRootByteArray {
             byte nr = number[i];
 
             // reached the end and thus should set the current digit to 1 now
-            if(nr == -1) {
+            if (nr == -1) {
                 // skip 0 and 1 as both are not seen as candidates anyway
                 number[i] = 2;
                 break;
             }
 
             // when a digit is 9, set it to 2 and continue incrementing the next digits
-            if(nr == 9) {
+            if (nr == 9) {
                 // skip 0 and 1 as both are not seen as candidates anyway
                 number[i] = 2;
             } else {
                 // if the following digit is higher, we can immediately increment to it
                 // as otherwise we do not have digits in ascending order anymore
-                if(number[i + 1] > (nr + 1)) {
+                if (number[i + 1] > (nr + 1)) {
                     number[i] = number[i + 1];
                 } else {
                     // otherwise simply increment
@@ -137,11 +137,11 @@ public class MultiplicativeDigitalRootByteArray {
         boolean two = false, three = false, five = false;
         for (int i = 0;i < MAX_DIGITS;i++) {
             byte b = number[i];
-            if(b == -1) {
+            if (b == -1) {
                 return true;
             }
 
-            if(b > prev) {
+            if (b > prev) {
                 return false;
             }
 
@@ -157,24 +157,28 @@ public class MultiplicativeDigitalRootByteArray {
                 if (two || three) {
                     return false;
                 }
+
                 // two and five together cause a "10" and thus are not more than 2 steps to get to root "0"
+				// irrespective of any other digits in the number
+				// this actually causes checking "25" to fail, but we ignore this one special case for now
                 if (five) {
                     return false;
                 }
-                two = true;
-            } else if(b == 3) {
+
+				two = true;
+            } else if (b == 3) {
                 // "3" and "3" can be replaced by "9" and this would give a smaller number
-                if(three) {
+                if (three) {
                     return false;
                 }
                 three = true;
-            } else if(b == 5) {
+            } else if (b == 5) {
                 five = true;
             }
 
             prev = b;
         }
 
-        return true;
+        throw new IllegalStateException("Exceeded max number of digits: " + MAX_DIGITS);
     }
 }
