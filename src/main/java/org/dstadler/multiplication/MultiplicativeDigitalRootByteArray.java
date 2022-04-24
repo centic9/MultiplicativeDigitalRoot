@@ -1,8 +1,8 @@
 package org.dstadler.multiplication;
 
-import java.math.BigInteger;
-
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
+
+import java.math.BigInteger;
 
 /**
  * A sample application which represents the digits of the number in a byte-array which
@@ -66,6 +66,11 @@ public class MultiplicativeDigitalRootByteArray {
                     countCheck, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber),
                     countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber)
             );
+
+			/*if (start + TimeUnit.MINUTES.toMillis(1) < System.currentTimeMillis()) {
+				System.out.println("Stopping after 1 Minute");
+				System.exit(0);
+			}*/
         }
 
         count++;
@@ -93,7 +98,7 @@ public class MultiplicativeDigitalRootByteArray {
 
             // reached the end and thus should set the current digit to 1 now
             if(nr == -1) {
-                // skip 1 as this is not a candidate anyway
+                // skip 0 and 1 as both are not seen as candidates anyway
                 number[i] = 2;
                 break;
             }
@@ -104,7 +109,7 @@ public class MultiplicativeDigitalRootByteArray {
                 number[i] = 2;
             } else {
                 // if the following digit is higher, we can immediately increment to it
-                // as otherwise we do not have digits in ascending order any more
+                // as otherwise we do not have digits in ascending order anymore
                 if(number[i + 1] > (nr + 1)) {
                     number[i] = number[i + 1];
                 } else {
@@ -135,6 +140,7 @@ public class MultiplicativeDigitalRootByteArray {
             if(b == -1) {
                 return true;
             }
+
             if(b > prev) {
                 return false;
             }
