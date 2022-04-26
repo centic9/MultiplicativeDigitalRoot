@@ -58,9 +58,9 @@ public class MultiplicativeDigitalRootByteArray {
             long duration = (now - start)/1000;
             BigInteger bigNumber = new BigInteger(MathUtils.toString(number));
             BigInteger nPerSec = duration == 0 ? BigInteger.ZERO : bigNumber.divide(BigInteger.valueOf(duration));
-			System.out.printf("%,10ds: Testing(%,4.1f): %,30d, max: %2d, n/sec: %,28d (%,8d), "
+			System.out.printf("%,10ds: Testing(%,3d): %,30d, max: %2d, n/sec: %,28d (%,8d), "
 							+ "candidates: %,20d (%,5d), checked: %,10d (%,5d)%n",
-                    duration, Math.log10(bigNumber.doubleValue()), bigNumber, maxPersistence,
+                    duration, MathUtils.toString(number).length(), bigNumber, maxPersistence,
                     nPerSec, BigInteger.valueOf(100_000).multiply(nPerSec).divide(bigNumber),
 					countCandidate, BigInteger.valueOf(10_000_000).multiply(BigInteger.valueOf(countCandidate)).divide(bigNumber),
                     countCheck, BigInteger.valueOf(100_000_000_000L).multiply(BigInteger.valueOf(countCheck)).divide(bigNumber)
