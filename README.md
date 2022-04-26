@@ -40,6 +40,9 @@ The second version at `MultiplicativeDigitalRootByteArray` represents the digits
 allows to perform some of the operations much quicker. It also optimizes incrementing the number a lot to check
 much less numbers and skip large sections of numbers that are not relevant anyway.
 
+The third version at `MultiplicativeDigitalRootClass` is similar to the previous one but 
+extracts code into a class `ByteArrayInteger` which encapsulates the handling of 
+
 ## Change it
 
 ### Grab it
