@@ -11,7 +11,7 @@ apply plugin: 'java'
 apply plugin: 'de.thetaphi.forbiddenapis'
 apply plugin: 'jacoco'
 
-sourceCompatibility = 1.11
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
@@ -26,16 +26,16 @@ forbiddenApisMain {
 }
 
 dependencies {
-	compile 'commons-io:commons-io:2.9.0'
-	compile 'org.apache.commons:commons-lang3:3.12.0'
-	compile 'org.dstadler:commons-dost:1.0.0.32'
+	implementation 'commons-io:commons-io:2.9.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'org.dstadler:commons-dost:1.0.0.32'
 
-	testCompile 'junit:junit:4.13.2'
-	testCompile 'org.dstadler:commons-test:1.0.0.19'
+	testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.dstadler:commons-test:1.0.0.19'
 }
 
 wrapper {
-    gradleVersion = '6.6.1'
+    gradleVersion = '6.9.2'
 }
 
 task adjustWrapperPropertiesFile {
