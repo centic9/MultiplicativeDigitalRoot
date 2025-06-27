@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -31,7 +32,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
         checkCandidate(false, "1748");
         checkCandidate(false, "87");
 
-        // these two known smallest number are not seen as candidates
+        // these two known smallest numbers are not seen as candidates
         // because "0" or "25" cannot appear in any higher persistence
         checkCandidate(false, "10");
         checkCandidate(false, "25");
@@ -66,11 +67,8 @@ public class MultiplicativeDigitalRootByteArrayTest {
     public void testCandidateExhausted() {
         // all nines means we would overflow the buffer next
         byte[] number = new byte[MAX_DIGITS];
-        for (int i = 0; i < MAX_DIGITS; i++) {
-            number[i] = 9;
-        }
+		Arrays.fill(number, (byte) 9);
 
-        //noinspection ResultOfMethodCallIgnored
         assertThrows(IllegalStateException.class,
                 () -> MultiplicativeDigitalRootByteArray.candidate(number));
     }
@@ -79,7 +77,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
     public void testCompare() {
         byte[] number = new byte[MAX_DIGITS];
         for(int i = 0;i < 10000;i++) {
-            String str = RandomStringUtils.randomNumeric(RandomUtils.nextInt(1, 100));
+            String str = RandomStringUtils.insecure().nextNumeric(RandomUtils.insecure().randomInt(1, 100));
             while(str.startsWith("0")) {
                 str = StringUtils.removeStart(str, "0");
             }
@@ -120,9 +118,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
         // when we start from 1 we should never encounter "0" or "1" again
         // as both as skipped when incrementing.
         byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
+		Arrays.fill(number, (byte) -1);
 
         BigInteger current = new BigInteger("1");
         for(int i = 0;i < 1000;i++) {
@@ -172,9 +168,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
     private void checkIncrementMultiple(String initial, String ... expectedNumbers) {
         byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
+		Arrays.fill(number, (byte) -1);
 
         BigInteger current = new BigInteger(initial);
         for (String expected : expectedNumbers) {
@@ -191,9 +185,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
 	@Test
 	public void testOnly789() {
 		byte[] number = new byte[MAX_DIGITS];
-		for(int i = 0;i < MAX_DIGITS;i++) {
-			number[i] = -1;
-		}
+		Arrays.fill(number, (byte) -1);
 
 		while (true) {
 			String str = MathUtils.toString(number);
@@ -236,9 +228,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
     private void runBenchmarkIncrement() {
         byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
+		Arrays.fill(number, (byte) -1);
 
         long start = System.currentTimeMillis();
 
@@ -270,9 +260,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
     private void runBenchmarkCandidate() {
         byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
+		Arrays.fill(number, (byte) -1);
 
         long start = System.currentTimeMillis();
 

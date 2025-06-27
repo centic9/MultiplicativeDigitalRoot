@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 public class MultiplicativeDigitalRootTest {
@@ -17,7 +19,7 @@ public class MultiplicativeDigitalRootTest {
         assertFalse(MultiplicativeDigitalRoot.candidate("15234"));
         assertFalse(MultiplicativeDigitalRoot.candidate("1"));
 
-        // these two known smallest number are not seen as candidates
+        // these two known smallest numbers are not seen as candidates
         // because "0" or "25" cannot appear in any higher persistence
         assertFalse(MultiplicativeDigitalRoot.candidate("10"));
         assertFalse(MultiplicativeDigitalRoot.candidate("25"));
@@ -41,11 +43,8 @@ public class MultiplicativeDigitalRootTest {
     public void testCandidateExhausted() {
         // all nines means we would overflow the buffer next
         byte[] number = new byte[MAX_DIGITS];
-        for (int i = 0; i < MAX_DIGITS; i++) {
-            number[i] = 9;
-        }
+		Arrays.fill(number, (byte) 9);
 
-        //noinspection ResultOfMethodCallIgnored
         assertThrows(IllegalStateException.class,
                 () -> MultiplicativeDigitalRootByteArray.candidate(number));
     }

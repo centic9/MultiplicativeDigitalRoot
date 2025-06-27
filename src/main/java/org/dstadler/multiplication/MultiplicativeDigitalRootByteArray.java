@@ -3,6 +3,7 @@ package org.dstadler.multiplication;
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * A sample application which represents the digits of the number in a byte-array which
@@ -23,9 +24,7 @@ public class MultiplicativeDigitalRootByteArray {
 
     public static void main(String[] args) {
         byte[] number = new byte[MAX_DIGITS];
-        for(int i = 0;i < MAX_DIGITS;i++) {
-            number[i] = -1;
-        }
+		Arrays.fill(number, (byte) -1);
 
         while(true) {
             if (runIteration(number)) {

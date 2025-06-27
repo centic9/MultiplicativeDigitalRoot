@@ -3,6 +3,7 @@ package org.dstadler.multiplication;
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * A class which models an arbitrary long integer via
@@ -13,9 +14,7 @@ public class ByteArrayInteger {
 	private int digits = 0;
 
 	public ByteArrayInteger() {
-		for(int i = 0;i < MAX_DIGITS;i++) {
-			number[i] = -1;
-		}
+		Arrays.fill(number, (byte) -1);
 	}
 
 	protected ByteArrayInteger(byte[] arr) {
