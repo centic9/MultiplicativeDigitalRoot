@@ -1,13 +1,13 @@
 package org.dstadler.multiplication;
 
 import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.math.BigInteger;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class ByteArrayIntegerTest {
 	@Test
@@ -80,10 +80,10 @@ public class ByteArrayIntegerTest {
 			number.increment();
 
             String numberStr = number.toString();
-            assertFalse("Failed for " + i + " and " + numberStr,
-                    numberStr.contains("0"));
-            assertFalse("Failed for " + i + " and " + numberStr,
-                    numberStr.contains("1"));
+            assertFalse(numberStr.contains("0"),
+                    "Failed for " + i + " and " + numberStr);
+            assertFalse(numberStr.contains("1"),
+                    "Failed for " + i + " and " + numberStr);
 
             current = new BigInteger(numberStr);
         }
@@ -100,8 +100,7 @@ public class ByteArrayIntegerTest {
                 break;
             }
 
-            assertEquals("Failed at " + i + ", having " + integer,
-                    expected[i], number[i]);
+            assertEquals(expected[i], number[i], "Failed at " + i + ", having " + integer);
         }
     }
 
@@ -160,7 +159,7 @@ public class ByteArrayIntegerTest {
 				number.toString());
 	}
 
-    @Ignore("Local micro-benchmark")
+    @Disabled("Local micro-benchmark")
     @Test
     public void testMicroBenchmarkIncrement() {
         /*

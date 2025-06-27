@@ -3,7 +3,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'de.thetaphi:forbiddenapis:3.1'
+		classpath 'de.thetaphi:forbiddenapis:3.9'
 	}
 }
 
@@ -11,7 +11,11 @@ apply plugin: 'java'
 apply plugin: 'de.thetaphi.forbiddenapis'
 apply plugin: 'jacoco'
 
-sourceCompatibility = JavaVersion.VERSION_11
+java {
+	toolchain {
+		sourceCompatibility = JavaVersion.VERSION_17
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -26,27 +30,22 @@ forbiddenApisMain {
 }
 
 dependencies {
-	implementation 'commons-io:commons-io:2.9.0'
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'org.dstadler:commons-dost:1.0.0.32'
+	implementation 'commons-io:commons-io:2.19.0'
+	implementation 'org.apache.commons:commons-lang3:3.17.0'
+	implementation 'org.dstadler:commons-dost:1.4.2'
 
-	testImplementation 'junit:junit:4.13.2'
-	testImplementation 'org.dstadler:commons-test:1.0.0.19'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.13.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.13.0'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.13.0'
+
+	testImplementation 'org.dstadler:commons-test:1.0.0.22'
 }
 
 wrapper {
-    gradleVersion = '7.6'
+    gradleVersion = '8.14.2'
 }
 
-task adjustWrapperPropertiesFile {
-    doLast {
-        ant.replaceregexp(match: '^#.*', replace: '', flags: 'g', byline: true) {
-            fileset(dir: project.projectDir, includes: 'gradle/wrapper/gradle-wrapper.properties')
-        }
-        new File(project.projectDir, 'gradle/wrapper/gradle-wrapper.properties').with {
-            it.text = it.readLines().findAll { it }.sort().join('\n')
-        }
-        ant.fixcrlf(file: 'gradle/wrapper/gradle-wrapper.properties', eol: 'lf')
-    }
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
 }
-wrapper.finalizedBy adjustWrapperPropertiesFile

@@ -1,21 +1,21 @@
 package org.dstadler.multiplication;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigInteger;
 
-import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class MultiplicativeDigitalRootByteArrayTest {
-	@Before
+	@BeforeEach
 	public void setUp() {
 		MultiplicativeDigitalRootByteArray.reset();
 	}
@@ -57,11 +57,9 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
         // ByteArray is optimized to not expect "0" or "1" at all
         if (!numberStr.contains("0") && !numberStr.contains("1")) {
-            assertEquals("Faild for " + expected + " and " + numberStr,
-                    expected, MultiplicativeDigitalRootByteArray.candidate(number));
+            assertEquals(expected, MultiplicativeDigitalRootByteArray.candidate(number), "Faild for " + expected + " and " + numberStr);
         }
-        assertEquals("Faild for " + expected + " and " + numberStr,
-                expected, MultiplicativeDigitalRoot.candidate(numberStr));
+        assertEquals(expected, MultiplicativeDigitalRoot.candidate(numberStr), "Faild for " + expected + " and " + numberStr);
     }
 
     @Test
@@ -93,9 +91,9 @@ public class MultiplicativeDigitalRootByteArrayTest {
 
             // ByteArray is optimized to not expect "0" or "1" at all
             if (!str.contains("0") && !str.contains("1")) {
-                assertEquals("Failed after " + i + " for " + str,
-                        MultiplicativeDigitalRoot.candidate(str),
-                        MultiplicativeDigitalRootByteArray.candidate(number));
+                assertEquals(MultiplicativeDigitalRoot.candidate(str),
+                        MultiplicativeDigitalRootByteArray.candidate(number),
+                        "Failed after " + i + " for " + str);
             }
         }
     }
@@ -133,10 +131,10 @@ public class MultiplicativeDigitalRootByteArrayTest {
             MultiplicativeDigitalRootByteArray.increment(number);
 
             String numberStr = MathUtils.toString(number);
-            assertFalse("Failed for " + i + " and " + numberStr,
-                    numberStr.contains("0"));
-            assertFalse("Failed for " + i + " and " + numberStr,
-                    numberStr.contains("1"));
+            assertFalse(numberStr.contains("0"),
+                    "Failed for " + i + " and " + numberStr);
+            assertFalse(numberStr.contains("1"),
+                    "Failed for " + i + " and " + numberStr);
 
             current = new BigInteger(numberStr);
         }
@@ -150,8 +148,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
                 break;
             }
 
-            assertEquals("Failed at " + i,
-                    expected[i], number[i]);
+            assertEquals(expected[i], number[i], "Failed at " + i);
         }
     }
 
@@ -218,7 +215,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
 				MathUtils.toString(number));
 	}
 
-    @Ignore("Local micro-benchmark")
+    @Disabled("Local micro-benchmark")
     @Test
     public void testMicroBenchmarkIncrement() {
         /*
@@ -252,7 +249,7 @@ public class MultiplicativeDigitalRootByteArrayTest {
         System.out.println("Took: " + (System.currentTimeMillis() - start) + "ms");
     }
 
-    @Ignore("Local micro-benchmark")
+    @Disabled("Local micro-benchmark")
     @Test
     public void testMicroBenchmarkCandidate() {
         /*

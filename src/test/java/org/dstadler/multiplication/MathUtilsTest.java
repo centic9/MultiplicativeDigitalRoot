@@ -1,13 +1,14 @@
 package org.dstadler.multiplication;
 
-import org.junit.Test;
+import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.dstadler.multiplication.MathUtils.MAX_DIGITS;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 public class MathUtilsTest {
 
@@ -118,12 +119,10 @@ public class MathUtilsTest {
     private void checkFactorization(String input, String... expectedFactors) {
         List<BigInteger> factors = MathUtils.primeFactors(input);
 
-        assertEquals("Did not get expected factors, expected " + Arrays.toString(expectedFactors) + " but had " + factors,
-                expectedFactors.length, factors.size());
+        assertEquals(expectedFactors.length, factors.size(), "Did not get expected factors, expected " + Arrays.toString(expectedFactors) + " but had " + factors);
 
         for(int i = 0;i < factors.size();i++) {
-            assertEquals("Did not get expected factor at " + i + " for " + Arrays.toString(expectedFactors) + ", had: " + factors,
-                    expectedFactors[i], factors.get(i).toString());
+            assertEquals(expectedFactors[i], factors.get(i).toString(), "Did not get expected factor at " + i + " for " + Arrays.toString(expectedFactors) + ", had: " + factors);
         }
     }
 
@@ -154,9 +153,10 @@ public class MathUtilsTest {
         checkToByteArrayAndToString(new byte[] {3, 4, 7, 9, 2, 1, -1}, "129743");
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test
     public void testToByteArrayOverflow() {
-        MathUtils.toByteArray(new byte[2], new BigInteger("123"));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () ->
+            MathUtils.toByteArray(new byte[2], new BigInteger("123")));
     }
 
     private void checkToByteArrayAndToString(byte[] expected, String strNumber) {
@@ -168,8 +168,7 @@ public class MathUtilsTest {
                 break;
             }
 
-            assertEquals("Failed at " + i,
-                    expected[i], number[i]);
+            assertEquals(expected[i], number[i], "Failed at " + i);
         }
 
         assertEquals(strNumber, MathUtils.toString(number));
